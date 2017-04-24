@@ -1,0 +1,32 @@
+{
+  "name": "handlebars-compiler",
+  "version": "1.0.0",
+  "description": "NPM gulp-compile-handlebars template",
+  "main": "gulpfile.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "precommpile",
+    "handlebars",
+    "developerside"
+  ],
+  "author": "sophusk",
+  "license": "ISC",
+  "devDependencies": {
+    "autoprefixer": "^6.7.7",
+    "browser-sync": "^2.18.8",
+    "gulp": "^3.9.1",
+    "gulp-clean": "^0.3.2",
+    "gulp-compile-handlebars": "^0.6.1",
+    "gulp-index": "0.0.8",
+    "gulp-notify": "^3.0.0",
+    "gulp-postcss": "^6.4.0",
+    "gulp-sass": "^3.1.0",
+    "gulp-sourcemaps": "^2.6.0",
+    "gulp-util": "^3.0.8",
+    "run-sequence": "^1.2.2",
+    "stringify": "^5.1.0",
+    "vinyl-source-stream": "^1.1.0"
+  }
+}

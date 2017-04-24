@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>HANDLEBARS BROWSER COMPILER</title>
+	
+	<style type="text/css">
+		.span--red {color: red;}
+		.span--blue {color: blue;}
+		.span--green {color: green;}
+
+		.section--red {
+			background: red;
+		}
+	</style>
+
+	<script src="../../js/handlebars-v4.0.5.js"></script>
+
+	<script type="text-javascript">
+		'use strict';
+
+		var externalizedData = {
+			[
+				{
+					'name': 'Something',
+					'age': 180,
+					'sex': 'female'
+				},
+				{
+					'name': 'Something similar',
+					'age': 280,
+					'sex': 'male'
+				}
+			]
+		};	
+	</script>
+</head>
+<body>
+
+
+
+
+	<!-- CONTENT #################### -->
+	<h1>Dette er en test</h1>
+	<div id="quoteData"></div>
+	
+
+	<!-- AUTOMATIC #################### START -->
+	<!-- CONTAINER -->
+	<div class="-hbs-parent" data-hbs-template-id="hbs-test-template" data-hbs-data-id="hbs-test-data">hej</div>
+	<!-- DATA - N.B. ALWAYS USE DOUBLE QUOTES! -->
+	<script type="text/javascript" id="hbs-test-data">
+		{
+			"name": "hattemager",
+			"options": [
+				{
+					"name": "Name 1",
+					"type": "male"
+				},
+				{
+					"name": "Name 2",
+					"type": "female"
+				}
+			]
+		}
+	</script>
+	<!-- TEMPLATE -->
+	<script type="text/x-handlebars-template" id="hbs-test-template">
+		<h2>
+			{{name}}
+		</h2>
+		<p>
+			Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid, ipsa.
+
+			<ol>
+				{{#each options}}
+					<li>{{name}} - {{type}}</li>
+				{{/each}}
+			</ol>
+		</p>
+	</script>
+	<!-- AUTOMATIC #################### END -->
+
+
+
+
+	<!-- SCRIPTS #################### -->
+	<!-- HBS TEMPLATES - SCRIPTS #################### -->
+	<script type="text/x-handlebars-template" id="quote-template">
+		<h3>Favorite {{name}} Quotes</h3>
+
+		<ol>
+			{{#each quotes}} {{! --> Loop through quotes }}
+				<li>{{quote}}</li>
+				<li>{{changeColor "Plain string input" color="changeGreen"}}</li>
+				<li>{{makeLink quote "http://www.valtech.com/test"}}</li>
+				<li>{{makeLink (changeColor quote color="changeBlue") "http://www.valtech.com/test"}}</li>
+
+			{{else}} {{! --> If list/array/object in each is empty }}
+				<li>Nothing in the list object</li>
+			{{/each}}
+		</ol>
+
+		{{changeColor "This is test! Heelloo!" color="changePrimary"}}
+		<div class="section section--{{color}}">
+			Olé!
+		</div>
+
+	</script>
+
+
+
+
+
+	<!-- HBS - SCRIPTS #################### -->
+	<script type="text/javascript" id="data-test-script">
+		'use strict';
+
+		// Quick link
+		Handlebars.registerHelper('makeLink', function (text, url) {
+			// Avoid code injection - always
+			text = Handlebars.Utils.escapeExpression(text);
+			url = Handlebars.Utils.escapeExpression(url);
+			// Build anchor tag
+			var link = '<a href="' + url + '">' + text + '</a>';
+			// Return link as 'SafeString' (prevent code escape) - use double-stash '{{makeLink example}}'
+			return new Handlebars.SafeString(link);
+		});
+
+		// Change color class
+		Handlebars.registerHelper('changeColor', function (text, options) {
+			// Avoid code injection - always
+			text = Handlebars.Utils.escapeExpression(text);
+
+			// Store color option
+			var thisColor = options.hash.color;
+
+			// Test color option
+			if(thisColor === 'changeBlue') { //
+				return new Handlebars.SafeString('<span class="span--blue">' + text + '</span>');
+			} else if(thisColor === 'changeRed') { //
+				return new Handlebars.SafeString('<span class="span--red">' + text + '</span>');
+			} else if(thisColor === 'changeGreen') { //
+				return new Handlebars.SafeString('<span class="span--green">' + text + '</span>');
+			}
+		});
+
+		// 
+
+
+		// Get structure template for ...
+		var quoteInfo = document.getElementById('quote-template').innerHTML;
+		// Compile template and data object
+		var template = Handlebars.compile(quoteInfo);
+		// Data object for ...
+		var quoteData = template({
+			name: 'Yogi',
+			quotes: [
+				{
+					quote: 'Hi there',
+					date: 'Yesterday',
+					classnames: "hi hi--big hi--red",
+					modifiers: [
+						{
+							color: "red"
+
+						}
+					]
+				},
+				{
+					quote: 'Oh my!',
+					date: 'The day before yesterday'
+				},
+				{
+					quote: 'So who\'s that?',
+					date: 'One year ago'
+				}
+			],
+			type: 'Test',
+			color: 'red'
+		});
+
+		document.getElementById('quoteData').innerHTML += quoteData;
+
+		// ####################
+		// Automatic linking for hbs assets
+		var hbsParArr = document.getElementsByClassName('-hbs-parent');
+		var i, l;
+		if(hbsParArr.length > 0) {
+			//console.log('gt 0');
+
+			for(i = 0, l = hbsParArr.length; i < l; i++) {
+				var thisElem = hbsParArr[i];
+				// Get template from element data attribute
+				var thisTemplateId = thisElem.getAttribute('data-hbs-template-id');
+				var thisTemplate = document.getElementById(thisTemplateId).innerHTML;
+				//console.log(thisTemplate);
+
+				// Construct template compile function
+				var thisCompile = Handlebars.compile(thisTemplate);
+				//console.log(thisCompile);
+
+				// Get data from element data attribute
+				var thisDataId = thisElem.getAttribute('data-hbs-data-id');
+				var thisData = document.getElementById(thisDataId).innerHTML;
+				//var thisData = String(thisData);
+				var thisData = JSON.parse(thisData);
+				console.log(thisData);
+
+				// Compile and inject
+				var thisOutput = thisCompile(thisData);
+				thisElem.innerHTML += thisOutput;
+			}
+		}
+		// ####################
+
+		//console.log('hurra!');
+
+		// ####################
+	</script>
+	<!-- 
+</body>
+</html>
+

@@ -1,0 +1,45 @@
+{
+	"text1": "Lorem ipsum dolor sit amet",
+	"text2": "Vestibulum auctor dapibus neque",
+	"text3": "Nunc dignissim risus id metus",
+	"mediumText": "Morbi in sem quis dui placerat ornare. Pellentesque odio nisi, euismod in, pharetra a, ultricies in, diam. Sed arcu. Cras consequat.",
+	"longText": "Sed egestas, ante et vulputate volutpat, eros pede semper est, vitae luctus metus libero eu augue. Morbi purus libero, faucibus adipiscing, commodo quis, gravida id, est. Sed lectus. Praesent elementum hendrerit tortor. Sed semper lorem at felis. Vestibulum volutpat, lacus a ultrices sagittis, mi neque euismod dui, eu pulvinar nunc sapien ornare nisl. Phasellus pede arcu, dapibus eu, fermentum et, dapibus sed, urna.",
+	"content": {
+		"assets": {
+			"images": {
+				"0": {
+					"filePath": "/assets/img/",
+					"fileName": "bg_001",
+					"width": "900",
+					"height": "600"
+				},
+				"1": {
+					"filePath": "/assets/img/",
+					"fileName": "bg_002",
+					"width": "900",
+					"height": "600"
+				}
+			}
+		},
+		"items": [
+			{
+				"itemType": {
+
+				},
+				"content": {
+					"name": "item00",
+					"cssClasses": "hdl hdl--2"
+				}
+			},
+			{
+				"itemType": {
+
+				},
+				"content": {
+					"name": "item002",
+					"cssClasses": "hdl hdl--2"
+				}
+			}
+		]
+	}
+}
